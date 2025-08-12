@@ -18,9 +18,6 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Create Laravel storage symlink
-RUN php artisan storage:link
-
 # Set permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
 
@@ -28,4 +25,6 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
 EXPOSE 80
-CMD ["apache2-foreground"]
+
+# Ensure storage symlink exists every time container starts
+CMD php artisan storage:link && apache2-foreground
