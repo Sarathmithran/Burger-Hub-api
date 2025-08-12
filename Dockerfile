@@ -24,6 +24,10 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 # Point Apache to Laravel's public folder
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
+# Copy Apache config to allow Laravel storage symlink
+COPY apache-laravel.conf /etc/apache2/conf-available/laravel.conf
+RUN a2enconf laravel
+
 EXPOSE 80
 
 # Ensure storage symlink exists every time container starts
