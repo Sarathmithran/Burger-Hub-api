@@ -31,4 +31,4 @@ RUN a2enconf laravel
 EXPOSE 80
 
 # Ensure storage symlink exists every time container starts
-CMD php artisan storage:link && apache2-foreground
+CMD rm -rf public/storage && php artisan storage:link && apache2-foreground
