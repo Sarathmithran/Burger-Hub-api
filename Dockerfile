@@ -18,6 +18,9 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
+# Create Laravel storage symlink
+RUN php artisan storage:link
+
 # Set permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
 
